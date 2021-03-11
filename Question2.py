@@ -61,4 +61,17 @@ class Window(QMainWindow):
             self.drawing = False
     
  
+    def paintEvent(self, event):
+        canvasPainter  = QPainter(self)
+        canvasPainter.drawImage(self.rect(),self.image, self.image.rect() )
  
+    def clear(self):
+        self.image.fill(Qt.white)
+        self.update()
+ 
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = Window()
+    window.show()
+    app.exec_()

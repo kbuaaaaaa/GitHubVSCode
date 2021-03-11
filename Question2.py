@@ -41,10 +41,4 @@ class Window(QMainWindow):
  
     
  
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.drawing = True
-            self.lastPoint = event.pos()
-            #print(self.lastPoint)
- 
  

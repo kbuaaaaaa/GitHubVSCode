@@ -25,17 +25,19 @@ class Window(QMainWindow):
         self.image.fill(Qt.white)
  
         self.drawing = False
-        self.brushSize = 2
+        self.brushSize = 4
         self.brushColor = Qt.black
         self.lastPoint = QPoint()
  
         mainMenu = self.menuBar()
         fileMenu = mainMenu.addMenu("File")
 
-        clearAction = QAction(QIcon("icons/clear.png"), "Clear", self)
-        clearAction.setShortcut("Ctrl+C")
-        fileMenu.addAction(clearAction)
-        clearAction.triggered.connect(self.clear)
+        button = QPushButton('Clear', self)
+        button.move(300,500)
+        button.clicked.connect(self.clear)
+        self.label = QLabel("Drag the mouse to draw", self)
+        self.label.move(300,470)
+        self.label.resize(200,20)
  
     
  
@@ -46,50 +48,3 @@ class Window(QMainWindow):
             #print(self.lastPoint)
  
  
-    def mouseMoveEvent(self, event):
-        if(event.buttons() & Qt.LeftButton) & self.drawing:
-            painter = QPainter(self.image)
-            painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-            painter.drawLine(self.lastPoint, event.pos())
-            self.lastPoint = event.pos()
-            self.update()
- 
- 
- 
-    def mouseReleaseEvent(self, event):
- 
-        if event.button() == Qt.LeftButton:
-            self.drawing = False
- 
- 
-    def paintEvent(self, event):
-        canvasPainter  = QPainter(self)
-        canvasPainter.drawImage(self.rect(),self.image, self.image.rect() )
- 
- 
- 
- 
- 
-    def save(self):
-        filePath, _ = QFileDialog.getSaveFileName(self, "Save Image", "", "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
- 
-        if filePath == "":
-            return
-        self.image.save(filePath)
- 
- 
- 
-    def clear(self):
-        self.image.fill(Qt.white)
-        self.update()
- 
-
- 
- 
- 
- 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = Window()
-    window.show()
-    app.exec_()

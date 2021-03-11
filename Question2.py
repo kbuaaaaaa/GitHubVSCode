@@ -29,6 +29,15 @@ class Window(QMainWindow):
         self.brushColor = Qt.black
         self.lastPoint = QPoint()
  
+        mainMenu = self.menuBar()
+        fileMenu = mainMenu.addMenu("File")
+
+        clearAction = QAction(QIcon("icons/clear.png"), "Clear", self)
+        clearAction.setShortcut("Ctrl+C")
+        fileMenu.addAction(clearAction)
+        clearAction.triggered.connect(self.clear)
+ 
+    
  
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -59,9 +68,24 @@ class Window(QMainWindow):
  
  
  
+ 
+ 
+    def save(self):
+        filePath, _ = QFileDialog.getSaveFileName(self, "Save Image", "", "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+ 
+        if filePath == "":
+            return
+        self.image.save(filePath)
+ 
+ 
+ 
     def clear(self):
         self.image.fill(Qt.white)
         self.update()
+ 
+
+ 
+ 
  
  
 if __name__ == "__main__":

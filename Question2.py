@@ -38,7 +38,27 @@ class Window(QMainWindow):
         self.label = QLabel("Drag the mouse to draw", self)
         self.label.move(300,470)
         self.label.resize(200,20)
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.drawing = True
+            self.lastPoint = event.pos()
+            #print(self.lastPoint)
  
+ 
+    def mouseMoveEvent(self, event):
+        if(event.buttons() & Qt.LeftButton) & self.drawing:
+            painter = QPainter(self.image)
+            painter.setPen(QPen(self.brushColor, self.brushSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.lastPoint, event.pos())
+            self.lastPoint = event.pos()
+            self.update()
+ 
+ 
+ 
+    def mouseReleaseEvent(self, event):
+ 
+        if event.button() == Qt.LeftButton:
+            self.drawing = False
     
  
  
